@@ -1,11 +1,25 @@
 import './sass/main.scss';
+import TheMoviedbApiService from './js/filmApi';
+import { filmCard } from './js/components/filmCard' 
 
-const fetchFilms = async () => {
-  const response = await fetch("https://api.themoviedb.org/3/movie/550?api_key=e3f9ac8b4c25ea958657e460a35663f5");
-  const films = await response.json();
-  return films;
-};
+const theMovieApiService = new TheMoviedbApiService;
+const containerEl = document.querySelector('.container');
+console.log(containerEl);
 
-fetchFilms()
-  .then(films => console.log(films))
-  .catch(error => console.log(error));
+
+
+theMovieApiService.getPopularMovies()
+.then(response => {
+  console.log(response.data);
+}).catch(error => console.log(error));
+    
+theMovieApiService.getMovie()
+.then(response => {
+  console.log(response.data);
+  console.log(filmCard(response.data));
+  containerEl.append(filmCard(response.data));
+
+    }).catch(error => console.log(error));
+
+
+
